@@ -78,10 +78,8 @@ Map* MapBuilder::createMap(Texture2D mapImage) {
                 mapInCreation->addBoundBlock(block);
 
             } else if (ColorIsEqual(currentPixel, pacman)) {
-                Player* EvilPacMan = new Player(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager, LoadImage("images/evil-pacman.png"));
 				Player* PacMan = new Player(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager, LoadImage("images/pacman.png"));
 				mapInCreation->setPlayer(PacMan);
-				mapInCreation->setAltPlayer(EvilPacMan);
 
             } else if(ColorIsEqual(currentPixel, ghostC)) {
                 GhostSpawner* ghostSpawn = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager, pacmanSpriteSheet);
@@ -90,15 +88,7 @@ Map* MapBuilder::createMap(Texture2D mapImage) {
             } else if(ColorIsEqual(currentPixel, dotC)) {
 				int randNum = GetRandomValue(0, 100);
 
-                if (randNum == 20) {
-                    Cherry* cherry = new Cherry(xPos, yPos, pixelMultiplier, pixelMultiplier, pacmanSpriteSheet);
-                    mapInCreation->addEntity(cherry);
-
-                } else if (randNum == 30) {
-                    Strawberry* strawberry = new Strawberry(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
-                    mapInCreation->addEntity(strawberry);
-
-                } else if (randNum == 10) {
+                if (randNum == 10) {
                     Apple* apple = new Apple(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
                     mapInCreation->addEntity(apple);
 

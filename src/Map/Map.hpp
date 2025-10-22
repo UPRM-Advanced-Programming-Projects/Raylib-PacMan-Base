@@ -7,11 +7,9 @@ class Map {
     private:
         EntityManager* entityManager;
         Player* player;
-        Player* player2;
         GhostSpawner* ghostSpawner;
 
     public:
-        std::string playerType = "good";
 
         Map(EntityManager* manager);
 
@@ -22,7 +20,6 @@ class Map {
         EntityManager* getEntityManager();
 
         void setPlayer(Player* player);
-        void setAltPlayer(Player* player2);
         void setGhostSpawner(GhostSpawner* spawner);
 
         void tick();

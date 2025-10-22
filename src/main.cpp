@@ -36,9 +36,9 @@ int main ()
 
 
 	if (!IsWindowReady()) {
-    TraceLog(LOG_ERROR, "Window failed to initialize!");
-    return 1;
-}
+		TraceLog(LOG_ERROR, "Window failed to initialize!");
+		return 1;
+	}
 	// game loop
 	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
 	{
@@ -55,7 +55,6 @@ int main ()
 		program.MousePressed(mousePos.x, mousePos.y, MOUSE_BUTTON_LEFT);
 		program.MouseReleased(mousePos.x, mousePos.y, MOUSE_BUTTON_LEFT);
 		program.Draw();
-		if (program.winState->quitButton->wasPressed()) { break; }
 
 		
 		// end the frame and get ready for the next one  (display frame, poll input, etc...)

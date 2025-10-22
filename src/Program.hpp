@@ -7,21 +7,15 @@
 #include "Menu.hpp"
 #include "Game.hpp"
 #include "GameOver.hpp"
-#include "Pause.hpp"
-#include "Win.hpp"
-#include "CharacterSelection.hpp"
 
 class Program {
     private:
         State* currentState;
-        PauseState* pauseState;
         MenuState* menuState;
         GameState* gameState;
         GameOverState* gameOverState;
-        CharacterSelectionState* characterSelectionState;
         
     public:
-        WinState* winState;
         Program();
         
         void Update();

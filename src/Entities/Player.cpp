@@ -4,8 +4,6 @@
 #include "Dot.hpp"
 #include "BigDot.hpp"
 #include "Ghost.hpp"
-#include "CherrySprite.hpp"
-#include "StrawberrySprite.hpp"
 #include "AppleSprite.hpp"
 
 Player::Player(float x, float y, float width, float height, EntityManager* manager, Image spriteSheet) : Entity(x, y, width, height) {
@@ -56,10 +54,7 @@ Player::Player(float x, float y, float width, float height, EntityManager* manag
     this->walkLeft = new Animation(1, leftAnimFrames);
     this->walkRight = new Animation(1, rightAnimFrames);
 
-    this->powStraw = new StrawberryPowerUp();
-    this->powCherry = new CherryPowerUp();
     this->powApple = new ApplePowerUp();
-    this->powCherry->setManager(this->manager);
 
     this->movement = MLEFT;
 }
@@ -72,15 +67,6 @@ void Player::setScore(int score) { this->score = score; }
 void Player::setFacing(DIRECTION dir) { this->dir = dir; }
 
 void Player::tick() {
-    if (this->powStraw->getActive()) {
-        this->strawCounter++;
-
-        if (this->strawCounter >= 150) {
-            this->strawCounter = 0;
-            this->powStraw->reset();
-        }
-    }
-
     if (this->powApple->getActive()) {
         this->appleCounter++;
         this->speed = powApple->getSpeed();
@@ -136,22 +122,22 @@ void Player::render() {
     if (this->dir == UP) {
         t = this->walkUp->getCurrentFrame();
         DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                       (Vector2){0, 0}, 0, (Color){255, 255, 255, (unsigned char)this->powStraw->getTransparency()});
+                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
 
     } else if (this->dir == DOWN) {
         t = this->walkDown->getCurrentFrame();
         DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, (unsigned char)this->powStraw->getTransparency()});
+                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
 
     } else if (this->dir == LEFT) {   
         t = this->walkLeft->getCurrentFrame();
         DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, (unsigned char)this->powStraw->getTransparency()});
+                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
 
     } else if (this->dir == RIGHT) {
         t = this->walkRight->getCurrentFrame();
         DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, (unsigned char)this->powStraw->getTransparency()});
+                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
     }
     
     DrawText("Health: ", (float)(GetScreenWidth()) / 2.0f + 125, 50, 10, (Color){0, 255, 255, 255});
@@ -222,28 +208,9 @@ void Player::keyPressed(int key) {
             this->die();
             break;
 
-        case 'M':
-            if (this->health == this->MaxHealth) {
-                this->health = this->MaxHealth;
-            } else {
-                this->health++;
-            }
-
-            break;
-
         case ' ':
             if (powName.empty()){
                 break;
-            } else if (powName[0] == "Strawberry Power Up") {
-                if(!this->powStraw->getActive()) { powStraw->activate(); }
-                powName.erase(powName.begin());
-
-            } else if (powName[0] == "Cherry Power Up") {
-                this->powCherry->activate();
-                this->x = powCherry->getXPos();
-                this->y = powCherry->getYPos();
-                powName.erase(powName.begin());
-
             } else if (powName[0] == "Apple Power Up") {
                 if(!powApple->getActive()) { powApple->activate(); }
                 speed = powApple->getSpeed();
@@ -297,24 +264,6 @@ void Player::checkCollisions() {
                 this->manager->setKillable(true);
             }
 
-             if (dynamic_cast<Cherry*>(entity)) {
-                PlaySound(this->eatFruit);
-                entity->remove = true;
-                if (powName.size() < 3) {
-                     powName.push_back("Cherry Power Up");
-                }
-                this->score += 30;
-            }
-
-            if (dynamic_cast<Strawberry*>(entity)) {
-                PlaySound(this->eatFruit);
-                entity->remove = true;
-                if (powName.size() < 3) {
-                    powName.push_back("Strawberry Power Up");
-                }
-                score += 30;
-            }
-
             if (dynamic_cast<Apple*>(entity)) {
                 PlaySound(this->eatFruit);
                 entity->remove = true;
@@ -334,7 +283,7 @@ void Player::checkCollisions() {
                 this->score += 2000;
                 this->particles.push_back(new ScoreParticle(this->x, this->y - 20, "2000"));
                 ghost->remove = true;
-            } else if (!powStraw->getActive()) {
+            } else {
                 die();
             }
         }

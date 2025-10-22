@@ -5,8 +5,6 @@
 #include "Dot.hpp"
 #include "BigDot.hpp"
 #include "Ghost.hpp"
-#include "CherrySprite.hpp"
-#include "StrawberrySprite.hpp"
 #include "AppleSprite.hpp"
 
 class MapBuilder {

@@ -20,7 +20,6 @@ class GameState: public State{
         GameState();
 
 		int getFinalScore();
-		void changePlayer();
 		void soundManager();
 
 		void reset();

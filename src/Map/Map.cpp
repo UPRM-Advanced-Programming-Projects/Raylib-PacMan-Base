@@ -15,16 +15,11 @@ void Map::addEntity(Entity* entity) {
 }
 
 Player* Map::getPlayer() {
-    if (this->playerType == "good") {
-        return this->player;
-    } else {
-        return this->player2;
-    }
+    return this->player;
 }
 
 EntityManager* Map::getEntityManager() { return this->entityManager; }
 void Map::setPlayer(Player* player) { this->player = player; }
-void Map::setAltPlayer(Player* player2) { this->player2 = player2; }
 void Map::setGhostSpawner(GhostSpawner* spawner) { this->ghostSpawner = spawner; }
 
 void Map::tick() {

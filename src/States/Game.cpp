@@ -2,17 +2,12 @@
 
 GameState::GameState() {
 	this->startup = LoadSound("audio/pac-man-startup.mp3");
-	this->mapImage = LoadImage("images/map4.png");
+	this->mapImage = LoadImage("images/map.png");
 	this->map = MapBuilder().createMap(LoadTextureFromImage(mapImage));
-	this->map->playerType = "good";
 }
 
 int GameState::getFinalScore() {
     return this->finalScore;
-}
-
-void GameState::changePlayer() {
-    this->map->playerType = "bad";
 }
 
 void GameState::tick() {
@@ -51,12 +46,8 @@ void GameState::soundManager() {
 }
 
 void GameState::keyPressed(int key) {
-	this->map->keyPressed(key);
-
-	if (key == 'y') {
-		this->finalScore = map->getPlayer()->getScore();
-		this->setFinished(true);
-		this->setNextState("Win");
+	if (this->startupTimer <= 0) {
+		this->map->keyPressed(key);
 	}
 }
 

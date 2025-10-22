@@ -3,45 +3,27 @@
 bool isKeyCurrentlyPressed = false;
 
 Program::Program(){
-	//States
-	this->characterSelectionState = new CharacterSelectionState();
 	this->menuState = new MenuState();
 	this->gameState = new GameState();
-	this->winState = new WinState();
-	this->pauseState = new PauseState();
 	this->gameOverState = new GameOverState();
 
 	// Initial State
-	this->currentState = characterSelectionState;
+	this->currentState = menuState;
 }
 
 void Program::Update(){
     if (this->currentState != nullptr) {
         this->currentState->tick();
         if (this->currentState->hasFinished()) {
-            
-            if(this->characterSelectionState->getSelectedCharacter() == "bad"){
-                this->gameState->changePlayer();	
-            }
-
-            if (this->currentState->getNextState() == "CharSelection") {
-                this->currentState = this->characterSelectionState;
-
-            } else if (this->currentState->getNextState() == "Menu") {
+            if (this->currentState->getNextState() == "Menu") {
                 this->currentState = this->menuState;
 
             } else if (this->currentState->getNextState() == "Game") {
                 this->currentState = this->gameState;
 
-            } else if (this->currentState->getNextState() == "Win") {
-                this->winState->setScore(this->gameState->getFinalScore());
-                this->currentState = this->winState;
-                this->gameState = new GameState();
-
             } else if (this->currentState->getNextState() == "over") {
                 this->gameOverState->setScore(this->gameState->getFinalScore());
                 this->currentState = this->gameOverState;
-                this->gameState = new GameState();
             }
 
             this->currentState->reset();
@@ -77,20 +59,6 @@ void Program::KeyPressed(int key) {
 	//Turn Volume Back Up
 	if ( key == '=' ) {
 		SetMasterVolume(1);
-	}
-
-	// Pause State trigger
-	if ( key == 'p' && !isKeyCurrentlyPressed) {
-		if (this->currentState == this->gameState) {
-            this->currentState = this->pauseState;
-            this->currentState->reset();
-
-		} else if (this->currentState == this->pauseState) {
-            this->currentState = this->gameState;
-            this->currentState->reset();	
-		}
-
-		isKeyCurrentlyPressed = true;
 	}
 }
 

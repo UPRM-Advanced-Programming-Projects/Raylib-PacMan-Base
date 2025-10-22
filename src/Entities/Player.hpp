@@ -2,8 +2,6 @@
 
 #include "Animation.hpp"
 #include "EntityManager.hpp"
-#include "StrawberryPowerUp.hpp"
-#include "CherryPowerUp.hpp"
 #include "ApplePowerUp.hpp"
 #include "ScoreParticle.hpp"
 
@@ -36,8 +34,6 @@ class Player : public Entity {
 
         EntityManager* manager;
 
-        StrawberryPowerUp* powStraw;
-        CherryPowerUp* powCherry;
         ApplePowerUp* powApple;
         bool used = false;
 
