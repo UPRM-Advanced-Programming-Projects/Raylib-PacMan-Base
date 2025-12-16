@@ -52,12 +52,12 @@ void Program::KeyPressed(int key) {
 	}
 
 	//Turn Volume Down (Mute)	
-	if ( key == '-' ) {
+	if ( key == KEY_MINUS ) {
 		SetMasterVolume(0);
 	}
 	
 	//Turn Volume Back Up
-	if ( key == '=' ) {
+	if ( key == KEY_EQUAL) {
 		SetMasterVolume(1);
 	}
 }

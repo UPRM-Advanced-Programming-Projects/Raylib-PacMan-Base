@@ -33,6 +33,7 @@ int main ()
     // Create program (if we were loading images & fonts, 
 	//then you need to make sure that you load() them after window creation)
 	Program program;
+	SetMasterVolume(1);
 
 
 	if (!IsWindowReady()) {
@@ -45,7 +46,6 @@ int main ()
 		// drawing
 		BeginDrawing();
 		ClearBackground(BLACK);
-		SetMasterVolume(1);
 
 		Vector2 mousePos = GetMousePosition();
 
