@@ -4,59 +4,59 @@ MapBuilder::MapBuilder() {
 	entityManager = new EntityManager();
 	pixelMultiplier = 16;
 
-	boundBlockColor = (Color){0, 0, 0, 255};
-	pacman = (Color){255,255, 0, 255};
-	ghostC = (Color){25, 255,0, 255};
-	dotC = (Color){255, 10, 0, 255};
-	bigDotC = (Color){167, 0, 150, 255};
+	boundBlockColor = Color {0, 0, 0, 255};
+	pacman = Color {255,255, 0, 255};
+	ghostC = Color {25, 255,0, 255};
+	dotC = Color {255, 10, 0, 255};
+	bigDotC = Color {167, 0, 150, 255};
 
-	pacmanSpriteSheet = LoadImage("images/Background.png");
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){603, 18, 16, 16});
+	pacmanSpriteSheet = LoadImageFromTexture(ImageManager::spriteSheet);
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {603, 18, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){615, 37, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {615, 37, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){635, 37, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {635, 37, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 37, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 37, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 57, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 57, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 75, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 75, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){656, 116, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {656, 116, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){656, 136, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {656, 136, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 174, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 174, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 155, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 155, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){655, 192, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {655, 192, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){664, 232, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {664, 232, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){479, 191, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {479, 191, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){494, 191, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {494, 191, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){479, 208, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {479, 208, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 
-	tempBound =  ImageFromImage(pacmanSpriteSheet, (Rectangle){479, 223, 16, 16});
+	tempBound =  ImageFromImage(pacmanSpriteSheet, Rectangle {479, 223, 16, 16});
 	bound.push_back(LoadTextureFromImage(tempBound));
 }
 
@@ -78,27 +78,27 @@ Map* MapBuilder::createMap(Texture2D mapImage) {
                 mapInCreation->addBoundBlock(block);
 
             } else if (ColorIsEqual(currentPixel, pacman)) {
-				Player* PacMan = new Player(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager, LoadImage("images/pacman.png"));
+				Player* PacMan = new Player(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager);
 				mapInCreation->setPlayer(PacMan);
 
             } else if(ColorIsEqual(currentPixel, ghostC)) {
-                GhostSpawner* ghostSpawn = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager, pacmanSpriteSheet);
+                GhostSpawner* ghostSpawn = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, entityManager);
                 mapInCreation->setGhostSpawner(ghostSpawn);
 
             } else if(ColorIsEqual(currentPixel, dotC)) {
 				int randNum = GetRandomValue(0, 100);
 
                 if (randNum == 10) {
-                    Apple* apple = new Apple(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
+                    Apple* apple = new Apple(xPos,yPos,pixelMultiplier,pixelMultiplier);
                     mapInCreation->addEntity(apple);
 
                 } else {
-					Dot* dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
+					Dot* dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier);
 					mapInCreation->addEntity(dot);
 				}
 
             } else if (ColorIsEqual(currentPixel, bigDotC)) {
-                BigDot* bigDot = new BigDot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
+                BigDot* bigDot = new BigDot(xPos,yPos,pixelMultiplier,pixelMultiplier);
                 mapInCreation->addEntity(bigDot);
             }
         }

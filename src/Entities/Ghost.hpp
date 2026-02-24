@@ -17,32 +17,33 @@ class Ghost : public Entity {
         void checkCollisions();
 
     public:
-        Ghost(float x, float y, float width, float height, Image spriteSheet, EntityManager* manager, std::string color) : Entity(x, y, width, height) {
+        Ghost(float x, float y, float width, float height, EntityManager* manager, std::string color) : Entity(x, y, width, height) {
             this->manager = manager;
 
-            std::vector<Texture2D> killFrames;
-            Image temp;
-            temp = ImageFromImage(spriteSheet, (Rectangle){584, 64, 16, 16});
-            killFrames.push_back(LoadTextureFromImage(temp));
-            temp = ImageFromImage(spriteSheet, (Rectangle){600, 64, 16, 16});
-            killFrames.push_back(LoadTextureFromImage(temp));
-            temp = ImageFromImage(spriteSheet, (Rectangle){616, 64, 16, 16});
-            killFrames.push_back(LoadTextureFromImage(temp));
-            temp = ImageFromImage(spriteSheet, (Rectangle){632, 64, 16, 16});
-            killFrames.push_back(LoadTextureFromImage(temp));
+            std::vector<Rectangle> killFrames;
+            Rectangle subImage;
+            subImage = Rectangle { 584, 64, 16, 16 };
+            killFrames.push_back(subImage);
+
+            subImage = Rectangle { 600, 64, 16, 16 };
+            killFrames.push_back(subImage);
+
+            subImage = Rectangle { 616, 64, 16, 16 };
+            killFrames.push_back(subImage);
+
+            subImage = Rectangle { 632, 64, 16, 16 };
+            killFrames.push_back(subImage);
 
             this->killAnimation = new Animation(10, killFrames);
 
-            if (color == "red")     this->sprite = ImageFromImage(spriteSheet, (Rectangle){456, 64, 16, 16});
-            if (color == "pink")    this->sprite = ImageFromImage(spriteSheet, (Rectangle){456, 79, 16, 16});
-            if (color == "cyan")    this->sprite = ImageFromImage(spriteSheet, (Rectangle){456, 96, 16, 16});
-            if (color == "orange")  this->sprite = ImageFromImage(spriteSheet, (Rectangle){456, 113, 16, 16});
-            this->entityTexture = LoadTextureFromImage(this->sprite);
-            
+            if (color == "red")     this->textureBounds = Rectangle { 456, 64, 16, 16 };
+            if (color == "pink")    this->textureBounds = Rectangle { 456, 79, 16, 16 };
+            if (color == "cyan")    this->textureBounds = Rectangle { 456, 96, 16, 16 };
+            if (color == "orange")  this->textureBounds = Rectangle { 456, 113, 16, 16 };
         }
 
-        void tick();
-        void render();
+        void update() override;
+        void draw() override;
 
         bool getKillable() { return this->killable; }
         void setKillable(bool killable) { 

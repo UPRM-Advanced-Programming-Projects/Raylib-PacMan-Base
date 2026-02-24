@@ -9,8 +9,6 @@ class Button {
         int pressedCounter = -1;
         bool pressed = false;
         std::string buttonText;
-        Image buttonImage, clickedButton;
-        Texture2D buttonTexture, clickedTexture;
 
     public:
         Button() {
@@ -29,8 +27,8 @@ class Button {
         }
 
         void mousePressed(float x, float y, int button);
-        void tick();
-        void render();
+        void update();
+        void draw();
         void reset();
 
         bool wasPressed() { return this->pressed; }

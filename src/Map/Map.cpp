@@ -22,15 +22,15 @@ EntityManager* Map::getEntityManager() { return this->entityManager; }
 void Map::setPlayer(Player* player) { this->player = player; }
 void Map::setGhostSpawner(GhostSpawner* spawner) { this->ghostSpawner = spawner; }
 
-void Map::tick() {
-    this->entityManager->tick();
-	this->getPlayer()->tick();
-	this->ghostSpawner->tick();
+void Map::update() {
+    this->entityManager->update();
+	this->getPlayer()->update();
+	this->ghostSpawner->update();
 }
 
-void Map::render() {
-    this->entityManager->render();
-	this->getPlayer()->render();
+void Map::draw() {
+    this->entityManager->draw();
+	this->getPlayer()->draw();
 }
 
 void Map::keyPressed(int key) {

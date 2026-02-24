@@ -5,19 +5,18 @@
 #include "Animation.hpp" 
 
 class MenuState : public State {
-private:
-	Image img1;
-	Button* startButton;
-	Animation* animation;
+	private:
+		Button* startButton;
+		Animation* animation;
 
-public:
-	MenuState();
-    
-	void tick();
-	void render();
-	void keyPressed(int key);
-	void mousePressed(int x, int y, int button);
-	void reset();
+	public:
+		MenuState();
+		
+		void update() override;
+		void draw() override;
+		void reset() override;
+		void keyPressed(int key) override;
+		void mousePressed(int x, int y, int button) override;
 
-	~MenuState();
+		~MenuState();
 };

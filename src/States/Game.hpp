@@ -6,9 +6,6 @@
 
 class GameState: public State{
     private:
-        Sound startup;
-		Sound music;
-        Image mapImage;
         Map* map;
 		
 		// If you wish to remove the five second delay at the beginning set the startupTimer variable to zero;
@@ -22,11 +19,11 @@ class GameState: public State{
 		int getFinalScore();
 		void soundManager();
 
-		void reset();
-		void tick();
-		void render();
-		void keyPressed(int key);
-		void mousePressed(int x, int y, int button);
+		void update() override;
+		void draw() override;
+		void reset() override;
+		void keyPressed(int key) override;
+		void mousePressed(int x, int y, int button) override;
 		void keyReleased(int key);
 
 		~GameState();

@@ -1,6 +1,6 @@
 #include "Animation.hpp"
 
-void Animation::tick() {
+void Animation::update() {
     this->timer++;
     if (this->timer >= this->speed) {
         this->index++;
@@ -11,10 +11,10 @@ void Animation::tick() {
     }
 }
 
-std::vector<Texture2D> Animation::getFrames() {
+std::vector<Rectangle> Animation::getFrames() {
     return this->frames;
 }
 
-Texture2D Animation::getCurrentFrame() {
+Rectangle Animation::getCurrentFrame() {
     return this->frames[this->index];
 }

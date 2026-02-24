@@ -1,7 +1,7 @@
 #include "Ghost.hpp"
 #include "BoundBlock.hpp"
 
-void Ghost::tick() {
+void Ghost::update() {
 
     if (this->killable) {
         this->killableCounter--;
@@ -13,7 +13,7 @@ void Ghost::tick() {
         }
     }
 
-    this->killAnimation->tick();
+    this->killAnimation->update();
     this->canMove = true;
     checkCollisions();
 
@@ -73,13 +73,12 @@ void Ghost::tick() {
     }
 }
 
-void Ghost::render() {
+void Ghost::draw() {
     if (this->killable) {
-        Texture2D t = this->killAnimation->getCurrentFrame();
-        DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::spriteSheet, this->killAnimation->getCurrentFrame(), Rectangle { this->x, this->y, this->width, this->height },
+                       Vector2 {0, 0}, 0, WHITE);
     } else {
-        Entity::render();
+        Entity::draw();
     }
 }
 

@@ -4,7 +4,7 @@
 std::vector<std::string> colors = {"red", "pink", "cyan", "orange"};
 
 void GhostSpawner::spawnGhost(std::string color) {
-    Ghost* ghost = new Ghost(this->x, this->y, this->width, this->height, this->sprite, manager, color);
+    Ghost* ghost = new Ghost(this->x, this->y, this->width, this->height, manager, color);
     this->manager->ghosts.push_back(ghost);
 }
 
@@ -14,10 +14,10 @@ void GhostSpawner::keyPressed(int key) {
     }
 }
 
-void GhostSpawner::tick() {
+void GhostSpawner::update() {
     if (this->manager->ghosts.size() < 4) {
         if (this->spawnCounter == 0) {
-            spawnGhost(colors[(int)GetRandomValue(0, 4)]);
+            spawnGhost(colors[(int)GetRandomValue(0, 3)]);
             spawnCounter = 150;
         } else {
             spawnCounter--;

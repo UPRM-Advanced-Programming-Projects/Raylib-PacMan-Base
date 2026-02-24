@@ -8,7 +8,7 @@ void Button::mousePressed(float x, float y, int button) {
     }
 }
 
-void Button::tick() {
+void Button::update() {
     this->pressedCounter--;
     if (this->pressedCounter == 0) {
         this->pressed = false;
@@ -16,7 +16,7 @@ void Button::tick() {
     }
 }
 
-void Button::render() {
+void Button::draw() {
     DrawText(this->buttonText.c_str(), this->xPos + width / 2 - 4 * buttonText.size(), 
              this->yPos + height / 2, 20, (Color){0, 255, 255, 255});
 

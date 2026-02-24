@@ -1,20 +1,18 @@
 #include "Game.hpp"
 
 GameState::GameState() {
-	this->startup = LoadSound("audio/pac-man-startup.mp3");
-	this->mapImage = LoadImage("images/map.png");
-	this->map = MapBuilder().createMap(LoadTextureFromImage(mapImage));
+	this->map = MapBuilder().createMap(ImageManager::map);
 }
 
 int GameState::getFinalScore() {
     return this->finalScore;
 }
 
-void GameState::tick() {
+void GameState::update() {
 	this->soundManager();
 
 	if (this->startupTimer <= 0) {
-		this->map->tick();
+		this->map->update();
 	
 		if (this->map->getPlayer()->getHealth() == 0) {
 			this->setFinished(true);
@@ -32,13 +30,13 @@ void GameState::tick() {
 	}
 }
 
-void GameState::render() {
-    this->map->render();
+void GameState::draw() {
+    this->map->draw();
 }
 
 void GameState::soundManager() {
-    if (!IsSoundPlaying(this->startup) && this->isStarting && this->startupTimer > 0) {
-		PlaySound(this->startup);
+    if (!IsSoundPlaying(SoundManager::startup) && this->isStarting && this->startupTimer > 0) {
+		PlaySound(SoundManager::startup);
 		this->isStarting = false;
 	}
 

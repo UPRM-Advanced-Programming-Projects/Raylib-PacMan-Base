@@ -1,21 +1,24 @@
 #include "EntityManager.hpp"
 #include "Ghost.hpp"
 
-void EntityManager::tick() {
+void EntityManager::update() {
     if (this->killable) {
         this->killableCounter--;
+
         if (killableCounter <= 0) {
             this->killable = false;
+
             for (Entity* entity : ghosts) {
                 Ghost* ghost= dynamic_cast<Ghost*>(entity);
                 ghost->setKillable(false);
             }
+
         }
     }
 
     for (unsigned int i = 0; i < entities.size(); i++) {
         if (!entities[i]->remove) {
-            entities[i]->tick();
+            entities[i]->update();
         } else {
             Entity* entityPointer = entities[i];
             entities.erase(entities.begin() + i--);
@@ -23,11 +26,11 @@ void EntityManager::tick() {
         }
     }
 
-    for (BoundBlock* block : boundBlocks) { block->tick(); }
+    for (BoundBlock* block : boundBlocks) { block->update(); }
 
     for (unsigned int i = 0; i < ghosts.size(); i++) {
         if (!ghosts[i]->remove) {
-            ghosts[i]->tick();
+            ghosts[i]->update();
         } else {
             Ghost* ghostPointer = dynamic_cast<Ghost*>(ghosts[i]);
             ghosts.erase(ghosts.begin() + i--);
@@ -36,21 +39,16 @@ void EntityManager::tick() {
     }
 }
 
-void EntityManager::render() {
-    for (Entity* entity: this->entities) {
-        entity->render();
-    }
-    for (BoundBlock* block: this->boundBlocks) {
-        block->render();
-    }
-    for (Entity* ghost: this->ghosts) {
-        ghost->render();
-    }
+void EntityManager::draw() {
+    for (Entity* entity: this->entities) entity->draw();
+    for (BoundBlock* block: this->boundBlocks) block->BoundBlock::draw();
+    for (Entity* ghost: this->ghosts) ghost->draw();
 }
 
 void EntityManager::setKillable(bool) {
     this->killable = true;
     this->killableCounter = 10 * GetFPS();
+
     for (Entity* entity : ghosts) {
         Ghost* ghost = dynamic_cast<Ghost*>(entity); 
         ghost->setKillable(true);

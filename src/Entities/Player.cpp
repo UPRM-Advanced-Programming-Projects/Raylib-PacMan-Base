@@ -6,47 +6,39 @@
 #include "Ghost.hpp"
 #include "AppleSprite.hpp"
 
-Player::Player(float x, float y, float width, float height, EntityManager* manager, Image spriteSheet) : Entity(x, y, width, height) {
+Player::Player(float x, float y, float width, float height, EntityManager* manager) : Entity(x, y, width, height) {
     this->spawnX = x;
     this->spawnY = y;
     this->manager = manager;
-    this->chomp = LoadSound("audio/pac_chomp.mp3");
-    this->eatFruit = LoadSound("audio/EatFruit.mp3");
-    this->eatGhost = LoadSound("audio/EatGhost.mp3");
-    this->up = ImageFromImage(spriteSheet, (Rectangle){0, 48, 16, 16});
-    this->down = ImageFromImage(spriteSheet, (Rectangle){0, 32, 16, 16});
-    this->left = ImageFromImage(spriteSheet, (Rectangle){0, 16, 16, 16});
-    this->right = ImageFromImage(spriteSheet, (Rectangle){0, 0, 16, 16});
+    this->up = Rectangle { 0, 48, 16, 16 };
+    this->down = Rectangle { 0, 32, 16, 16 };
+    this->left = Rectangle { 0, 16, 16, 16 };
+    this->right = Rectangle { 0, 0, 16, 16 };
 
-    this->texDown = LoadTextureFromImage(this->down);
-    this->texUp = LoadTextureFromImage(this->up);
-    this->texLeft = LoadTextureFromImage(this->left);
-    this->texRight = LoadTextureFromImage(this->right);
-
-    std::vector<Texture2D> downAnimFrames;
-    std::vector<Texture2D> upAnimFrames;
-    std::vector<Texture2D> leftAnimFrames;
-    std::vector<Texture2D> rightAnimFrames;
-    Image temp;
+    std::vector<Rectangle> downAnimFrames;
+    std::vector<Rectangle> upAnimFrames;
+    std::vector<Rectangle> leftAnimFrames;
+    std::vector<Rectangle> rightAnimFrames;
+    Rectangle subImage;
 
     for(int i = 0; i < 3; i++){
-        temp = ImageFromImage(spriteSheet, (Rectangle){(float)(i * 16), 48, 16, 16});
-        downAnimFrames.push_back(LoadTextureFromImage(temp));
+        subImage = Rectangle { (float)(i * 16), 48, 16, 16 };
+        downAnimFrames.push_back(subImage);
     }
 
     for(int i = 0; i < 3; i++){
-        temp = ImageFromImage(spriteSheet, (Rectangle){(float)(i * 16), 32, 16, 16});
-        upAnimFrames.push_back(LoadTextureFromImage(temp));
+        subImage = Rectangle { (float)(i * 16), 32, 16, 16 };
+        upAnimFrames.push_back(subImage);
     }
 
     for(int i = 0; i < 3; i++){
-        temp = ImageFromImage(spriteSheet, (Rectangle){(float)(i * 16), 16, 16, 16});
-        leftAnimFrames.push_back(LoadTextureFromImage(temp));
+        subImage = Rectangle { (float)(i * 16), 16, 16, 16 };
+        leftAnimFrames.push_back(subImage);
     }
 
     for(int i = 0; i < 3; i++){
-        temp = ImageFromImage(spriteSheet, (Rectangle){(float)(i * 16), 0, 16, 16});
-        rightAnimFrames.push_back(LoadTextureFromImage(temp));
+        subImage = Rectangle { (float)(i * 16), 0, 16, 16 };
+        rightAnimFrames.push_back(subImage);
     }
 
     this->walkDown = new Animation(1, downAnimFrames);
@@ -66,7 +58,7 @@ void Player::setHealth(int hp) { this->health = hp; }
 void Player::setScore(int score) { this->score = score; }
 void Player::setFacing(DIRECTION dir) { this->dir = dir; }
 
-void Player::tick() {
+void Player::update() {
     if (this->powApple->getActive()) {
         this->appleCounter++;
         this->speed = powApple->getSpeed();
@@ -93,58 +85,52 @@ void Player::tick() {
 
     if (this->dir == UP && this->canMoveUp) {
         this->y -= speed;
-        this->walkUp->tick();
+        this->walkUp->update();
 
     } else if (this->dir == DOWN && this->canMoveDown) {
         this->y += speed;
-        this->walkDown->tick();
+        this->walkDown->update();
 
     } else if (this->dir == LEFT && this->canMoveLeft) {
         this->x -= speed;
-        this->walkLeft->tick();
+        this->walkLeft->update();
 
     } else if (this->dir == RIGHT && this->canMoveRight) {
         this->x += speed;
-        this->walkRight->tick();
+        this->walkRight->update();
     }
 
-    for (ScoreParticle* p : this->particles) { p->tick(); }
+    for (ScoreParticle* p : this->particles) { p->update(); }
 
     this->particles.erase(std::remove_if(this->particles.begin(), this->particles.end(),
                           [](ScoreParticle* p) { return p->lifeTime <= 0; }), 
                           this->particles.end());
 }
 
-void Player::render() {
-    for (ScoreParticle* p : this->particles) { p->render(); }
+void Player::draw() {
+    for (ScoreParticle* p : this->particles) { p->draw(); }
 
-    Texture2D t;
     if (this->dir == UP) {
-        t = this->walkUp->getCurrentFrame();
-        DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                       (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::pacman, this->walkUp->getCurrentFrame(), (Rectangle){this->x, this->y, this->width, this->height},
+                       (Vector2){0, 0}, 0, WHITE);
 
     } else if (this->dir == DOWN) {
-        t = this->walkDown->getCurrentFrame();
-        DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::pacman, this->walkDown->getCurrentFrame(), (Rectangle){this->x, this->y, this->width, this->height},
+                      (Vector2){0, 0}, 0, WHITE);
 
     } else if (this->dir == LEFT) {   
-        t = this->walkLeft->getCurrentFrame();
-        DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::pacman, this->walkLeft->getCurrentFrame(), (Rectangle){this->x, this->y, this->width, this->height},
+                      (Vector2){0, 0}, 0, WHITE);
 
     } else if (this->dir == RIGHT) {
-        t = this->walkRight->getCurrentFrame();
-        DrawTexturePro(t, (Rectangle){0, 0, (float)t.width, (float)t.height}, (Rectangle){this->x, this->y, this->width, this->height},
-                      (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+        DrawTexturePro(ImageManager::pacman, this->walkRight->getCurrentFrame(), (Rectangle){this->x, this->y, this->width, this->height},
+                      (Vector2){0, 0}, 0, WHITE);
     }
     
     DrawText("Health: ", (float)(GetScreenWidth()) / 2.0f + 125, 50, 10, (Color){0, 255, 255, 255});
 
     for (unsigned int i = 0; i < health; i++) {
-        Texture2D temp = this->walkRight->getFrames()[0];
-        DrawTexturePro(temp, (Rectangle){0, 0, (float)temp.width, (float)temp.height}, 
+        DrawTexturePro(ImageManager::pacman, this->walkRight->getFrames()[0], 
                        (Rectangle){GetScreenWidth() / 2.0f + 25 * i + 200, 50, 20, 20}, 
                        (Vector2){0, 0}, 0, YELLOW);
     }
@@ -253,19 +239,19 @@ void Player::checkCollisions() {
     for(Entity* entity: this->manager->entities){
         if(this->collision(entity)){
             if (dynamic_cast<Dot*>(entity) || dynamic_cast<BigDot*>(entity)) {
-                PlaySound(this->chomp);
+                PlaySound(SoundManager::chomp);
                 entity->remove = true;
                 this->score += 10;
             }
             
             if (dynamic_cast<BigDot*>(entity)) {
-                PlaySound(this->chomp);
+                PlaySound(SoundManager::chomp);
                 this->score +=20;
                 this->manager->setKillable(true);
             }
 
             if (dynamic_cast<Apple*>(entity)) {
-                PlaySound(this->eatFruit);
+                PlaySound(SoundManager::eatFruit);
                 entity->remove = true;
                 if (powName.size() < 3){
                     powName.push_back("Apple Power Up");
@@ -279,7 +265,7 @@ void Player::checkCollisions() {
         if (this->collision(entity)) {
             Ghost* ghost = dynamic_cast<Ghost*>(entity);
             if (ghost->getKillable()) {
-                PlaySound(this->eatGhost);
+                PlaySound(SoundManager::eatGhost);
                 this->score += 2000;
                 this->particles.push_back(new ScoreParticle(this->x, this->y - 20, "2000"));
                 ghost->remove = true;

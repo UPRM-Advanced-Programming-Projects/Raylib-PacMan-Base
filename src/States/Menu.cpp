@@ -2,21 +2,19 @@
 
 MenuState::MenuState() {
 	this->startButton = new Button(GetScreenWidth() / 2 - 40, GetScreenHeight() / 2, 64, 50, "Start");
-	this->img1 = LoadImage("images/pacman.png");
+	std::vector<Rectangle> rightAnimframes;
 
-	std::vector<Texture2D> rightAnimframes;
-    Image temp;
 	for (int i = 0; i < 3; i++) {
-        temp = ImageFromImage(img1, (Rectangle){(float)(i * 16), 0, 16, 16});
-        rightAnimframes.push_back(LoadTextureFromImage(temp));
+        Rectangle subImage = Rectangle { (float)(i * 16), 0, 16, 16 };
+        rightAnimframes.push_back(subImage);
     }
 
 	this->animation = new Animation(10, rightAnimframes);
 }
 
-void MenuState::tick() {
-	this->startButton->tick();
-	this->animation->tick();
+void MenuState::update() {
+	this->startButton->update();
+	this->animation->update();
 
 	if (this->startButton->wasPressed()) {
 		this->setNextState("Game");
@@ -25,18 +23,17 @@ void MenuState::tick() {
 	}
 }
 
-void MenuState::render() {
+void MenuState::draw() {
 	this->drawOverLay();
 	std::string title = "Pacman Project";
 	DrawText(title.c_str(), GetScreenWidth() / 2 - 14 * title.size(),
-			 GetScreenHeight() / 2 - 300, 50, (Color){255, 255, 255, 255});
+			 GetScreenHeight() / 2 - 300, 50, WHITE);
 			 
-    Texture2D temp = this->animation->getCurrentFrame();
-	DrawTexturePro(temp, (Rectangle){0, 0, (float)temp.width, (float)temp.height}, 
-                   (Rectangle){GetScreenWidth() / 2.0f - 50, GetScreenHeight() / 2.0f - 100, 100, 100},
-                   (Vector2){0, 0}, 0, (Color){255, 255, 255, 255});
+	DrawTexturePro(ImageManager::pacman, this->animation->getCurrentFrame(), 
+                	Rectangle { GetScreenWidth() / 2.0f - 50, GetScreenHeight() / 2.0f - 100, 100, 100 },
+                   Vector2 {0, 0}, 0, WHITE);
 	
-	startButton->render();
+	startButton->draw();
 }
 
 void MenuState::keyPressed(int key) {

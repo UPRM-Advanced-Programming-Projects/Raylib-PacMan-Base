@@ -13,7 +13,7 @@ Program::Program(){
 
 void Program::Update(){
     if (this->currentState != nullptr) {
-        this->currentState->tick();
+        this->currentState->update();
         if (this->currentState->hasFinished()) {
             if (this->currentState->getNextState() == "Menu") {
                 this->currentState = this->menuState;
@@ -38,12 +38,7 @@ void Program::Update(){
 }
 
 void Program::Draw(){
-	if (this->currentState != nullptr) this->currentState->render();
-	
-}
-
-void Program::Unload(){
-
+	if (this->currentState != nullptr) this->currentState->draw();
 }
 
 void Program::KeyPressed(int key) {
@@ -63,42 +58,16 @@ void Program::KeyPressed(int key) {
 }
 
 void Program::KeyReleased(int key) {
-	if (this->currentState != nullptr)
-			this->currentState->keyReleased(key);
-	
 	if (key == 'p') {
 		isKeyCurrentlyPressed = false;
 	}
-}
-
-void Program::MouseMoved(int x, int y ) {
-	if (this->currentState != nullptr) this->currentState->mouseMoved(x, y);
-}
-
-void Program::MouseDragged(int x, int y, int button) {
-	if (this->currentState != nullptr) this->currentState->mouseDragged(x, y, button);
 }
 
 void Program::MousePressed(int x, int y, int button) {
 	if (this->currentState != nullptr) this->currentState->mousePressed(x, y, button);
 }
 
-void Program::MouseReleased(int x, int y, int button) {
-	if (this->currentState != nullptr) this->currentState->mouseReleased(x, y, button);
-}
-
-void Program::MouseEntered(int x, int y) {
-	if (this->currentState != nullptr) this->currentState->mouseEntered(x, y);
-}
-
-void Program::MouseExited(int x, int y) {
-	if (this->currentState != nullptr) this->currentState->mouseExited(x, y);
-}
-
-void Program::WindowResized(int w, int h) {
-	if (this->currentState != nullptr) this->currentState->windowResized(w, h);
-}
-
-Program::~Program() {
-    Unload();
+void Program::Unload(){
+	SoundManager::unloadSounds();
+	ImageManager::unloadImages();
 }

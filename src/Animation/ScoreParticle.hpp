@@ -16,8 +16,8 @@ class ScoreParticle {
             this->score = score;
         }
 
-        void render();
-        void tick();
+        void update();
+        void draw();
 
         ~ScoreParticle() {}
 };

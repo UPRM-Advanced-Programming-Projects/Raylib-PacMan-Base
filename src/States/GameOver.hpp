@@ -5,22 +5,21 @@
 #include "Animation.hpp" 
 
 class GameOverState : public State {
-private:
-	Image img1;
-	Button* startButton;
-	Animation* animation;
-	int score = 0;
+	private:
+		Button* startButton;
+		Animation* animation;
+		int score = 0;
 
-public:
-	GameOverState();
+	public:
+		GameOverState();
 
-    void setScore(int score);
+		void setScore(int score);
 
-	void tick();
-	void render();
-	void keyPressed(int key);
-	void mousePressed(int x, int y, int button);
-	void reset();
+		void update() override;
+		void draw() override;
+		void reset() override;
+		void keyPressed(int key) override;
+		void mousePressed(int x, int y, int button) override;
 
-	~GameOverState();
+		~GameOverState();
 };

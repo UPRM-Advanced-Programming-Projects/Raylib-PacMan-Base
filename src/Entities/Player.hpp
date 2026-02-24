@@ -13,27 +13,26 @@ enum MOVEMENT {
 };
 class Player : public Entity {
     private:
+        const unsigned int MaxHealth = 3;
         float spawnX, spawnY;
         unsigned int health = 3;
-        const unsigned int MaxHealth = 3;
         int score = 0;
-        Sound chomp, eatFruit, eatGhost; 
-
+        
         int speed = 4;
         bool moving = false;
         bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
+        
         MOVEMENT movement;
         DIRECTION dir = DOWN;
-        Image up, down, left, right;
-        Texture2D texUp, texDown, texLeft, texRight;
-
+        Rectangle up, down, left, right;
+        
         Animation* walkUp;
         Animation* walkDown;
         Animation* walkLeft;
         Animation* walkRight;
-
+        
         EntityManager* manager;
-
+        
         ApplePowerUp* powApple;
         bool used = false;
 
@@ -43,7 +42,7 @@ class Player : public Entity {
         int strawCounter = 0;
         int appleCounter = 0;
 
-        Player(float x, float y, float width, float height, EntityManager* manager, Image spriteSheet);
+        Player(float x, float y, float width, float height, EntityManager* manager);
 
         int getHealth();
         int getScore();
@@ -52,8 +51,8 @@ class Player : public Entity {
         void setScore(int score);
         void setFacing(DIRECTION dir);
 
-        void tick();
-        void render();
+        void update() override;
+        void draw() override;
 
         void keyPressed(int key);
         void keyReleased(int key);

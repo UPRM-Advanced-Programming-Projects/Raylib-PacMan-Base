@@ -1,6 +1,8 @@
 #pragma once
 
 #include "raylib.h"
+#include "ImageManager.hpp"
+#include "SoundManager.hpp"
 
 enum DIRECTION {
     UP,
@@ -13,11 +15,10 @@ class Entity {
     protected:
         float x, y, width, height;
         int ticks = 0;
-    
+        Rectangle textureBounds;
+
     public:
         bool remove = false;
-        Image sprite;
-        Texture2D entityTexture;
 
         explicit Entity(float x, float y, float width, float height) {
             this->x = x;
@@ -26,8 +27,8 @@ class Entity {
             this->height = height;
         }
 
-        virtual void tick();
-        virtual void render();
+        virtual void update();
+        virtual void draw();
 
         void damage(Entity* damageSource);
         bool collision(Entity* entity);

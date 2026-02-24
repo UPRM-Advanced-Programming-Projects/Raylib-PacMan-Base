@@ -6,20 +6,19 @@
 class Animation {
     private:
         int speed, index, timer;
+        std::vector<Rectangle> frames;
         bool end;
-        std::vector<Texture2D> frames;
-        Texture2D currentTexture;
 
     public:
-        Animation(int speed, std::vector<Texture2D> frames) {
+        Animation(int speed, std::vector<Rectangle> frames) {
             this->speed = speed;
             this->frames = frames;
             this->index = 0;
             this->timer = 0;
         }
 
-        void tick();
+        void update();
         void reset();
-        std::vector<Texture2D> getFrames();
-        Texture2D getCurrentFrame();
+        std::vector<Rectangle> getFrames();
+        Rectangle getCurrentFrame();
 };

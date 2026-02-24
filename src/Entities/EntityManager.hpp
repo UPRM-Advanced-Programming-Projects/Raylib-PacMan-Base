@@ -13,8 +13,8 @@ class EntityManager {
         std::vector<BoundBlock*> boundBlocks;
         std::vector<Entity*> ghosts;
 
-        void tick();
-        void render();
+        void update();
+        void draw();
         void setKillable(bool);
 
         ~EntityManager();

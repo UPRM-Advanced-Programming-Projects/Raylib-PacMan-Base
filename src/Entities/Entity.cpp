@@ -1,11 +1,13 @@
 #include "Entity.hpp"
 
-void Entity::tick() {
+void Entity::update() {
     this->ticks++;
 }
 
-void Entity::render() {
-    DrawTextureEx(entityTexture, (Vector2){x, y}, 0, 1, (Color){255, 255, 255, 255});
+void Entity::draw() {
+    DrawTexturePro(ImageManager::spriteSheet, this->textureBounds, 
+                   Rectangle { this->x, this->y, this->width, this->height },
+                   Vector2 {0, 0}, 0, WHITE);
 }
 
 bool Entity::collision(Entity* entity) {
