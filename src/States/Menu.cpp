@@ -1,7 +1,7 @@
 #include "Menu.hpp"
 
 MenuState::MenuState() {
-	this->startButton = new Button(GetScreenWidth() / 2 - 40, GetScreenHeight() / 2, 64, 50, "Start");
+	this->startButton = new Button(GetScreenWidth() / 2 - 60, GetScreenHeight() / 2 + 25, 120, 50, "Start");
 	std::vector<Rectangle> rightAnimframes;
 
 	for (int i = 0; i < 3; i++) {
@@ -26,11 +26,11 @@ void MenuState::update() {
 void MenuState::draw() {
 	this->drawOverLay();
 	std::string title = "Pacman Project";
-	DrawText(title.c_str(), GetScreenWidth() / 2 - 14 * title.size(),
+	DrawText(title.c_str(), GetScreenWidth() / 2 - 197.5,
 			 GetScreenHeight() / 2 - 300, 50, WHITE);
 			 
 	DrawTexturePro(ImageManager::pacman, this->animation->getCurrentFrame(), 
-                	Rectangle { GetScreenWidth() / 2.0f - 50, GetScreenHeight() / 2.0f - 100, 100, 100 },
+                	Rectangle { GetScreenWidth() / 2.0f - 44, GetScreenHeight() / 2.0f - 100, 100, 100 },
                    Vector2 {0, 0}, 0, WHITE);
 	
 	startButton->draw();

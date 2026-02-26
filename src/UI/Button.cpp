@@ -17,11 +17,10 @@ void Button::update() {
 }
 
 void Button::draw() {
-    DrawText(this->buttonText.c_str(), this->xPos + width / 2 - 4 * buttonText.size(), 
-             this->yPos + height / 2, 20, (Color){0, 255, 255, 255});
+    DrawText(this->buttonText.c_str(), this->xPos + this->width / 2 - (11 * buttonText.size()) / 2, 
+             this->yPos + this->height / 2 - 7, 20, (Color){0, 255, 255, 255});
 
-    DrawRectangleLines(this->xPos - this->buttonText.size() * 3.7, this->yPos + 12,
-                       this->width + this->buttonText.size() * 10, this->height, (Color){0, 0, 255, 255});
+    DrawRectangleLines(this->xPos, this->yPos, this->width, this->height, (Color){0, 0, 255, 255});
 }
 
 void Button::reset() {
