@@ -13,6 +13,7 @@ class Ghost : public Entity {
         DIRECTION dir = UP;
         EntityManager* manager;
         Animation* killAnimation;
+        int delay;
 
         void checkCollisions();
 
@@ -50,6 +51,8 @@ class Ghost : public Entity {
             this->killable = killable;
             this->killableCounter = 300; 
         }
+
+        void setDelay(int delay) {this->delay = delay; }
 
         ~Ghost() { delete this->killAnimation; }
 };

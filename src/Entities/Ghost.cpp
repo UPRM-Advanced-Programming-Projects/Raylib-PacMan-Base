@@ -2,6 +2,10 @@
 #include "BoundBlock.hpp"
 
 void Ghost::update() {
+    if (delay > 0) {
+        delay--;
+        return;
+    }
 
     if (this->killable) {
         this->killableCounter--;
@@ -45,7 +49,7 @@ void Ghost::update() {
         if (this->justSpawned) {
             this->dir = UP;
         } else {
-            randInt = GetRandomValue(0, 4);
+            randInt = GetRandomValue(0, 3);
         }
 
         switch (randInt) {
@@ -74,11 +78,32 @@ void Ghost::update() {
 }
 
 void Ghost::draw() {
+    int x = 456;
+    switch (this->dir){
+        case LEFT:
+            x += 16 * 2;
+            break;
+
+        case UP:
+            x += 16 * 4;
+            break;
+
+        case DOWN:
+            x += 16 * 6;
+            break;
+
+        default:
+            break;
+    }
+
     if (this->killable) {
         DrawTexturePro(ImageManager::spriteSheet, this->killAnimation->getCurrentFrame(), Rectangle { this->x, this->y, this->width, this->height },
                        Vector2 {0, 0}, 0, WHITE);
     } else {
-        Entity::draw();
+        this->textureBounds.x = x;
+        DrawTexturePro(ImageManager::spriteSheet, this->textureBounds, 
+                   Rectangle { this->x, this->y, this->width, this->height },
+                   Vector2 {0, 0}, 0, WHITE);
     }
 }
 

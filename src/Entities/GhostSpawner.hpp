@@ -1,7 +1,6 @@
 #pragma once
 
-#include "EntityManager.hpp"
-
+#include "Ghost.hpp"
 class GhostSpawner : public Entity {
     private:
         EntityManager* manager;
@@ -14,6 +13,12 @@ class GhostSpawner : public Entity {
             spawnGhost("cyan");
             spawnGhost("pink");
             spawnGhost("orange");
+
+            int count = 0;
+            for (Entity* g : this->manager->ghosts) {
+                Ghost* g2 = dynamic_cast<Ghost*>(g);
+                g2->setDelay(30 * count++);
+            }
         }
 
         void spawnGhost(std::string color);
