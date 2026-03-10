@@ -14,12 +14,14 @@ class Ghost : public Entity {
         EntityManager* manager;
         Animation* killAnimation;
         int delay;
+        std::string color;
 
         void checkCollisions();
 
     public:
         Ghost(float x, float y, float width, float height, EntityManager* manager, std::string color) : Entity(x, y, width, height) {
             this->manager = manager;
+            this->color = color;
 
             std::vector<Rectangle> killFrames;
             Rectangle subImage;
@@ -46,6 +48,7 @@ class Ghost : public Entity {
         void update() override;
         void draw() override;
 
+        std::string getColor() { return this->color; }
         bool getKillable() { return this->killable; }
         void setKillable(bool killable) { 
             this->killable = killable;

@@ -17,8 +17,21 @@ void GhostSpawner::keyPressed(int key) {
 void GhostSpawner::update() {
     if (this->manager->ghosts.size() < 4) {
         if (this->spawnCounter == 0) {
-            spawnGhost(colors[(int)GetRandomValue(0, 3)]);
-            spawnCounter = 150;
+            for (std::string color : colors) {
+                bool found = false;
+
+                for (Entity* ghost : this->manager->ghosts){
+                    Ghost* g2 = dynamic_cast<Ghost*>(ghost);
+                    if (g2->getColor() == color) found = true;
+                }
+
+                if (!found) {
+                    spawnGhost(color);
+                    spawnCounter = 150;
+                    return;
+                }
+            }
+
         } else {
             spawnCounter--;
         }
