@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "BoundBlock.hpp"
+#include <vector>
 
 class EntityManager {
     private:

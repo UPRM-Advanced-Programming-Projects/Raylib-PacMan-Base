@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "raylib.h"
+#include <vector>
 
 class Animation {
     private:

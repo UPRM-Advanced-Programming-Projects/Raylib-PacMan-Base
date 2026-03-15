@@ -4,6 +4,7 @@
 #include "EntityManager.hpp"
 #include "ApplePowerUp.hpp"
 #include "ScoreParticle.hpp"
+#include <algorithm>
 
 enum MOVEMENT {
     MUP,
